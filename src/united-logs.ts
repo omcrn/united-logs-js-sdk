@@ -6,10 +6,10 @@
 (function (win) {
 
   class UnitedLogs {
-    private levels: Array = ['warning', 'info', 'error', 'success'];
-    private key: String;
-    private environment: String;
-    private domain: String;
+    private levels: Array<string> = ['warning', 'info', 'error', 'success'];
+    private key: string;
+    private environment: string;
+    private domain: string;
 
     static LEVEL_WARNING = 'warning';
     static LEVEL_ERROR = 'error';
@@ -17,7 +17,7 @@
     static LEVEL_SUCCESS = 'success';
 
 
-    constructor(key: String, environment: String, levels: Array = null, domain: String = null) {
+    constructor(key: string, environment: string, levels: Array<string> = null, domain: string = null) {
 
       if (!key) {
         console.error('API Key not specified');
@@ -38,7 +38,7 @@
       this.domain = domain ? (domain + '/api/v1/log') : `${UNITED_LOGS_DOMAIN}/api/v1/log`;
     }
 
-    public error(message: String, category: String, $params: any = null) {
+    public error(message: string, category: string, $params: any = null) {
       return this.sendLog(UnitedLogs.LEVEL_ERROR, message, category, $params);
     }
 
@@ -54,7 +54,7 @@
 
     }
 
-    private sendLog(level: String, message: String, category: String, params) {
+    private sendLog(level: string, message: string, category: string, params: any) {
       if (this.levels.indexOf(level) === -1) {
         return false;
       }
@@ -71,16 +71,16 @@
 
     }
 
-    private sendRequest(url: String, method: String, data:Object = {}, async:boolean = true) {
-      let xhttp,
-        callbacks = [],
+    private sendRequest(url: string, method: string, data: Object = {}, async: boolean = true) {
+      let xhttp: XMLHttpRequest,
+        callbacks: Array<Function> = [],
         ret = {
-          finished: function (fn) {
+          finished: function (fn: Function) {
             callbacks.push(fn);
             return ret;
           }
         };
-      if (window.XMLHttpRequest) {
+      if (XMLHttpRequest) {
         xhttp = new XMLHttpRequest();
       } else {
         // code for IE6, IE5

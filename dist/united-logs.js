@@ -55,7 +55,7 @@
                     return ret;
                 }
             };
-            if (window.XMLHttpRequest) {
+            if (XMLHttpRequest) {
                 xhttp = new XMLHttpRequest();
             }
             else {
