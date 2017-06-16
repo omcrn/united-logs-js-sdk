@@ -87,7 +87,7 @@
         xhttp = new ActiveXObject("Microsoft.XMLHTTP");
       }
       xhttp.onreadystatechange = function () {
-        if (xhttp.readyState == 4) {
+        if (xhttp.readyState === 4) {
           let res = JSON.parse(xhttp.responseText);
           for (let i = 0; i < callbacks.length; i++) {
             if (callbacks[i] && typeof callbacks[i] === 'function') {
