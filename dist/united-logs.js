@@ -18,20 +18,26 @@
             if (levels !== null) {
                 this.levels = levels;
             }
-            if (domain === null && UNITED_LOGS_DOMAIN) {
+            if (domain === null && !win.UNITED_LOGS_DOMAIN) {
                 console.error('Please define the domain as global variable with name UNITED_LOGS_DOMAIN or specify it when constructing UnitedLogs object.');
             }
-            this.domain = domain ? (domain + '/api/v1/log') : UNITED_LOGS_DOMAIN + "/api/v1/log";
+            this.domain = domain ? (domain + '/api/v1/log') : win.UNITED_LOGS_DOMAIN + "/api/v1/log";
         }
-        UnitedLogs.prototype.error = function (message, category, $params) {
-            if ($params === void 0) { $params = null; }
-            return this.sendLog(UnitedLogs.LEVEL_ERROR, message, category, $params);
+        UnitedLogs.prototype.error = function (message, category, params) {
+            if (params === void 0) { params = null; }
+            return this.sendLog(UnitedLogs.LEVEL_ERROR, message, category, params);
         };
-        UnitedLogs.prototype.success = function () {
+        UnitedLogs.prototype.success = function (message, category, params) {
+            if (params === void 0) { params = null; }
+            return this.sendLog(UnitedLogs.LEVEL_SUCCESS, message, category, params);
         };
-        UnitedLogs.prototype.info = function () {
+        UnitedLogs.prototype.info = function (message, category, params) {
+            if (params === void 0) { params = null; }
+            return this.sendLog(UnitedLogs.LEVEL_INFO, message, category, params);
         };
-        UnitedLogs.prototype.warning = function () {
+        UnitedLogs.prototype.warning = function (message, category, params) {
+            if (params === void 0) { params = null; }
+            return this.sendLog(UnitedLogs.LEVEL_WARNING, message, category, params);
         };
         UnitedLogs.prototype.sendLog = function (level, message, category, params) {
             if (this.levels.indexOf(level) === -1) {
@@ -46,9 +52,9 @@
             };
             this.sendRequest(this.domain + "/" + level, 'POST', data);
         };
-        UnitedLogs.prototype.sendRequest = function (url, method, data, async) {
+        UnitedLogs.prototype.sendRequest = function (url, method, data, asynch) {
             if (data === void 0) { data = {}; }
-            if (async === void 0) { async = true; }
+            if (asynch === void 0) { asynch = true; }
             var xhttp, callbacks = [], ret = {
                 finished: function (fn) {
                     callbacks.push(fn);
@@ -72,8 +78,9 @@
                     }
                 }
             };
-            xhttp.open(method, url, async);
-            xhttp.send(data);
+            xhttp.open(method, url, asynch);
+            xhttp.setRequestHeader("Content-Type", "application/json");
+            xhttp.send(JSON.stringify(data));
             return ret;
         };
         return UnitedLogs;

@@ -32,26 +32,26 @@
         this.levels = levels;
       }
 
-      if (domain === null && UNITED_LOGS_DOMAIN) {
+      if (domain === null && !win.UNITED_LOGS_DOMAIN) {
         console.error('Please define the domain as global variable with name UNITED_LOGS_DOMAIN or specify it when constructing UnitedLogs object.');
       }
-      this.domain = domain ? (domain + '/api/v1/log') : `${UNITED_LOGS_DOMAIN}/api/v1/log`;
+      this.domain = domain ? (domain + '/api/v1/log') : `${win.UNITED_LOGS_DOMAIN}/api/v1/log`;
     }
 
-    public error(message: string, category: string, $params: any = null) {
-      return this.sendLog(UnitedLogs.LEVEL_ERROR, message, category, $params);
+    public error(message: string, category: string, params: any = null) {
+      return this.sendLog(UnitedLogs.LEVEL_ERROR, message, category, params);
     }
 
-    public success() {
-
+    public success(message: string, category: string, params: any = null) {
+      return this.sendLog(UnitedLogs.LEVEL_SUCCESS, message, category, params);
     }
 
-    public info() {
-
+    public info(message: string, category: string, params: any = null) {
+      return this.sendLog(UnitedLogs.LEVEL_INFO, message, category, params);
     }
 
-    public warning() {
-
+    public warning(message: string, category: string, params: any = null) {
+      return this.sendLog(UnitedLogs.LEVEL_WARNING, message, category, params);
     }
 
     private sendLog(level: string, message: string, category: string, params: any) {
@@ -71,7 +71,7 @@
 
     }
 
-    private sendRequest(url: string, method: string, data: Object = {}, async: boolean = true) {
+    private sendRequest(url: string, method: string, data: Object = {}, asynch: boolean = true) {
       let xhttp: XMLHttpRequest,
         callbacks: Array<Function> = [],
         ret = {
@@ -96,8 +96,9 @@
           }
         }
       };
-      xhttp.open(method, url, async);
-      xhttp.send(data);
+      xhttp.open(method, url, asynch);
+      xhttp.setRequestHeader("Content-Type", "application/json");
+      xhttp.send(JSON.stringify(data));
       return ret;
     }
   }
