@@ -1,0 +1,17 @@
+{
+  "name": "united-logs",
+  "authors": [
+    "Zura Sekhniashvili <zurasekhniashvili@gmail.com>"
+  ],
+  "description": "API client to communicate to united logs server",
+  "main": "united-logs.js",
+  "license": "GPL",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
